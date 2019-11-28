@@ -1,0 +1,297 @@
+﻿<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset='utf8'>
+      <title>Metodo laminas</title>		
+      <style type="text/css">
+         body{
+            margin: 0;
+         }
+         #escenario{
+            background: #BBBBBB;
+            height: 700px;
+            position: fixed;
+	    width: 1366px;
+         }
+      </style>
+   </head>
+   <body>
+      <div id="escenario"></div>
+      <script type="text/javascript" src='jquery-1.8.2.min.js'></script>
+      <script type="text/javascript" src='Three.js'></script>
+      <script type="text/javascript">
+
+      var ancho = 1366, alto  = 700;
+      var angulo = 30, ratio  = ancho / alto, cerca  = 0.1, lejos  = 10000;
+      var escenario = $('#escenario');
+      
+      var miRender = new THREE.WebGLRenderer();
+      var miCamara = new THREE.PerspectiveCamera(angulo, ratio, cerca, lejos);
+      var miEscena = new THREE.Scene();
+			
+      
+      miCamara.position.x = 300;
+      miCamara.position.y = 200;
+      miCamara.position.z = -300;
+      miRender.setSize(ancho, alto);
+      escenario.append(miRender.domElement);
+
+/* Rectangulo1 */
+      var Rec1 =new THREE.Geometry();
+      var CRec1 = new THREE.Vector3(0,0,0);
+      var CRec2 = new THREE.Vector3(100,0,0);
+      var CRec3 = new THREE.Vector3(100,50,0);
+      var CRec4 = new THREE.Vector3(0,50,0);
+      
+      Rec1.vertices.push(new THREE.Vertex(CRec1));
+      Rec1.vertices.push(new THREE.Vertex(CRec2));
+      Rec1.vertices.push(new THREE.Vertex(CRec3));
+      Rec1.vertices.push(new THREE.Vertex(CRec4));
+
+      Rec1.faces.push(new THREE.Face4(0,1,2,3));
+      var matRec1 = new THREE.MeshBasicMaterial({color:0xAA5500});
+      var Rectangulo1 = new THREE.Mesh(Rec1,matRec1);
+      Rectangulo1.position.set(0,0,0);
+      Rectangulo1.castShadow = Rectangulo1.receiveShadow = true;
+
+/* Rectangulo2 */
+      var Rec2 =new THREE.Geometry();
+      var CRec5 = new THREE.Vector3(0,0,0);
+      var CRec6 = new THREE.Vector3(100,0,0);
+      var CRec7 = new THREE.Vector3(100,0,-50);
+      var CRec8 = new THREE.Vector3(0,0,-50);
+
+      Rec2.vertices.push(new THREE.Vertex(CRec5));
+      Rec2.vertices.push(new THREE.Vertex(CRec6));
+      Rec2.vertices.push(new THREE.Vertex(CRec7));
+      Rec2.vertices.push(new THREE.Vertex(CRec8));
+
+      Rec2.faces.push(new THREE.Face4(0,1,2,3));
+      var matRec2 = new THREE.MeshBasicMaterial({color:0xAA5500});
+      var Rectangulo2 = new THREE.Mesh(Rec2,matRec2);
+      Rectangulo2.position.set(0,50,0);
+      Rectangulo2.castShadow = Rectangulo2.receiveShadow = true;
+
+/* Rectangulo3 */
+      var Rec3 =new THREE.Geometry();
+      var CRec9 = new THREE.Vector3(0,0,0);
+      var CRec10 = new THREE.Vector3(100,0,0);
+      var CRec11 = new THREE.Vector3(100,-50,0);
+      var CRec12 = new THREE.Vector3(0,-50,0);
+
+      Rec3.vertices.push(new THREE.Vertex(CRec9));
+      Rec3.vertices.push(new THREE.Vertex(CRec10));
+      Rec3.vertices.push(new THREE.Vertex(CRec11));
+      Rec3.vertices.push(new THREE.Vertex(CRec12));
+
+      Rec3.faces.push(new THREE.Face4(0,1,2,3));
+      var matRec3 = new THREE.MeshBasicMaterial({color:0xAA5500});
+      var Rectangulo3 = new THREE.Mesh(Rec3,matRec3);
+      Rectangulo3.position.set(0,50,-50);
+      Rectangulo3.castShadow = Rectangulo3.receiveShadow = true;
+
+/* Rectangulo4 */
+      var Rec4 =new THREE.Geometry();
+      var CRec13 = new THREE.Vector3(0,0,0);
+      var CRec14 = new THREE.Vector3(0,50,0);
+      var CRec15 = new THREE.Vector3(0,50,-50);
+      var CRec16 = new THREE.Vector3(0,0,-50);
+
+      Rec4.vertices.push(new THREE.Vertex(CRec13));
+      Rec4.vertices.push(new THREE.Vertex(CRec14));
+      Rec4.vertices.push(new THREE.Vertex(CRec15));
+      Rec4.vertices.push(new THREE.Vertex(CRec16));
+
+      Rec4.faces.push(new THREE.Face4(0,1,2,3));
+      var matRec4 = new THREE.MeshBasicMaterial({color:0xAA5500});
+      var Rectangulo4 = new THREE.Mesh(Rec4,matRec4);
+      Rectangulo4.position.set(0,0,0);
+      Rectangulo4.castShadow = Rectangulo4.receiveShadow = true;
+
+/* Rectangulo5 */
+      var Rec5 =new THREE.Geometry();
+      var CRec17 = new THREE.Vector3(0,0,0);
+      var CRec18 = new THREE.Vector3(100,0,0);
+      var CRec19 = new THREE.Vector3(100,0,50);
+      var CRec20 = new THREE.Vector3(0,0,50);
+
+      Rec5.vertices.push(new THREE.Vertex(CRec17));
+      Rec5.vertices.push(new THREE.Vertex(CRec18));
+      Rec5.vertices.push(new THREE.Vertex(CRec19));
+      Rec5.vertices.push(new THREE.Vertex(CRec20));
+
+      Rec5.faces.push(new THREE.Face4(0,1,2,3));
+      var matRec5 = new THREE.MeshBasicMaterial({color:0xAA5500});
+      var Rectangulo5 = new THREE.Mesh(Rec5,matRec5);
+      Rectangulo5.position.set(0,0,-50);
+      Rectangulo5.castShadow = Rectangulo5.receiveShadow = true;
+
+/* Rectangulo6 */
+      var Rec6 =new THREE.Geometry();
+      var CRec21 = new THREE.Vector3(0,0,0);
+      var CRec22 = new THREE.Vector3(0,0,-50);
+      var CRec23 = new THREE.Vector3(0,50,-50);
+      var CRec24 = new THREE.Vector3(0,50,0);
+
+      Rec6.vertices.push(new THREE.Vertex(CRec21));
+      Rec6.vertices.push(new THREE.Vertex(CRec22));
+      Rec6.vertices.push(new THREE.Vertex(CRec23));
+      Rec6.vertices.push(new THREE.Vertex(CRec24));
+
+      Rec6.faces.push(new THREE.Face4(0,1,2,3));
+      var matRec6 = new THREE.MeshBasicMaterial({color:0xAA5500});
+      var Rectangulo6 = new THREE.Mesh(Rec6,matRec6);
+      Rectangulo6.position.set(100,0,0);
+      Rectangulo6.castShadow = Rectangulo6.receiveShadow = true;
+
+/* Rectangulo7 */
+      var Rec7 =new THREE.Geometry();
+      var CRec25 = new THREE.Vector3(0,0,0);
+      var CRec26 = new THREE.Vector3(100,0,0);
+      var CRec27 = new THREE.Vector3(100,25,-25);
+      var CRec28 = new THREE.Vector3(0,25,-25);
+
+      Rec7.vertices.push(new THREE.Vertex(CRec25));
+      Rec7.vertices.push(new THREE.Vertex(CRec26));
+      Rec7.vertices.push(new THREE.Vertex(CRec27));
+      Rec7.vertices.push(new THREE.Vertex(CRec28));
+
+      Rec7.faces.push(new THREE.Face4(0,1,2,3));
+      var matRec7 = new THREE.MeshBasicMaterial({color:0xAA0000});
+      var Rectangulo7 = new THREE.Mesh(Rec7,matRec7);
+      Rectangulo7.position.set(0,50,0);
+      Rectangulo7.castShadow = Rectangulo7.receiveShadow = true;
+
+/* Rectangulo8 */
+      var Rec8 =new THREE.Geometry();
+      var CRec29 = new THREE.Vector3(0,25,0);
+      var CRec30 = new THREE.Vector3(100,25,0);
+      var CRec31 = new THREE.Vector3(100,0,-25);
+      var CRec32 = new THREE.Vector3(0,0,-25);
+
+      Rec8.vertices.push(new THREE.Vertex(CRec29));
+      Rec8.vertices.push(new THREE.Vertex(CRec30));
+      Rec8.vertices.push(new THREE.Vertex(CRec31));
+      Rec8.vertices.push(new THREE.Vertex(CRec32));
+
+      Rec8.faces.push(new THREE.Face4(0,1,2,3));
+      var matRec8 = new THREE.MeshBasicMaterial({color:0xAA0000});
+      var Rectangulo8 = new THREE.Mesh(Rec8,matRec8);
+      Rectangulo8.position.set(0,50,-25);
+      Rectangulo8.castShadow = Rectangulo8.receiveShadow = true;
+
+/* Triangulo1 */
+      var Tri1 = new THREE.Geometry();
+      var CTri1 = new THREE.Vector3(0,0,0);
+      var CTri2 = new THREE.Vector3(0,25,-25);
+      var CTri3 = new THREE.Vector3(0,0,-50);
+    
+      Tri1.vertices.push(new THREE.Vertex(CTri1));
+      Tri1.vertices.push(new THREE.Vertex(CTri2));
+      Tri1.vertices.push(new THREE.Vertex(CTri3));
+    
+      Tri1.faces.push( new THREE.Face3(0,1,2));
+      var matTri1 =  new THREE.MeshBasicMaterial({color:0xAA0000});   
+      var Triangulo1= new THREE.Mesh(Tri1, matTri1);
+      Triangulo1.position.set(0,50,0);
+      Triangulo1.castShadow = Triangulo1.receiveShadow = true;
+
+/* Triangulo2 */
+      var Tri2 = new THREE.Geometry();
+      var CTri4 = new THREE.Vector3(0,0,0);
+      var CTri5 = new THREE.Vector3(0,25,25);
+      var CTri6 = new THREE.Vector3(0,0,50);
+    
+      Tri2.vertices.push(new THREE.Vertex(CTri4));
+      Tri2.vertices.push(new THREE.Vertex(CTri5));
+      Tri2.vertices.push(new THREE.Vertex(CTri6));
+    
+      Tri2.faces.push( new THREE.Face3(0,1,2));
+      var matTri2 =  new THREE.MeshBasicMaterial({color:0xAA0000});   
+      var Triangulo2= new THREE.Mesh(Tri2, matTri2);
+      Triangulo2.position.set(100,50,-50);
+      Triangulo2.castShadow = Triangulo2.receiveShadow = true;
+
+/* Rectangulo9 */
+      var Rec9 =new THREE.Geometry();
+      var CRe1 = new THREE.Vector3(0,0,0);
+      var CRe2 = new THREE.Vector3(0,30,0);
+      var CRe3 = new THREE.Vector3(0,30,-20);
+      var CRe4 = new THREE.Vector3(0,0,-20);
+
+      Rec9.vertices.push(new THREE.Vertex(CRe1));
+      Rec9.vertices.push(new THREE.Vertex(CRe2));
+      Rec9.vertices.push(new THREE.Vertex(CRe3));
+      Rec9.vertices.push(new THREE.Vertex(CRe4));
+
+      Rec9.faces.push(new THREE.Face4(0,1,2,3));
+      var matRec9 = new THREE.MeshBasicMaterial({color:0x000022});
+      var Rectangulo9 = new THREE.Mesh(Rec9,matRec9);
+      Rectangulo9.position.set(-.4,0,-15);
+      Rectangulo9.castShadow = Rectangulo4.receiveShadow = true;
+
+/* Rectangulo10 */
+      var Rec10 =new THREE.Geometry();
+      var CRe5 = new THREE.Vector3(0,0,0);
+      var CRe6 = new THREE.Vector3(40,0,0);
+      var CRe7 = new THREE.Vector3(40,20,0);
+      var CRe8 = new THREE.Vector3(0,20,0);
+
+      Rec10.vertices.push(new THREE.Vertex(CRe5));
+      Rec10.vertices.push(new THREE.Vertex(CRe6));
+      Rec10.vertices.push(new THREE.Vertex(CRe7));
+      Rec10.vertices.push(new THREE.Vertex(CRe8));
+
+      Rec10.faces.push(new THREE.Face4(0,1,2,3));
+      var matRec10 = new THREE.MeshBasicMaterial({color:0x000022});
+      var Rectangulo10 = new THREE.Mesh(Rec10,matRec10);
+      Rectangulo10.position.set(30,15,.4	);
+      Rectangulo10.castShadow = Rectangulo10.receiveShadow = true;
+
+	
+/* LUZ */
+      var luz2 = new THREE.SpotLight(0xFFFFFF);
+      luz2.position.x = 0; luz2.position.y = 200; luz2.position.z = -200;
+      luz2.castShadow = true;
+		
+      var luz = new THREE.SpotLight(0xFFFFFF);
+      luz.position.x = 0; luz.position.y = 200; luz.position.z = 200;
+      luz.castShadow = true;
+		
+      miEscena.add(luz); 
+      miEscena.add(luz2);
+      miEscena.add(miCamara);
+      miEscena.add(Rectangulo1);
+      miEscena.add(Rectangulo2);
+      miEscena.add(Rectangulo3);
+      miEscena.add(Rectangulo4);
+      miEscena.add(Rectangulo5);
+      miEscena.add(Rectangulo6);
+      miEscena.add(Rectangulo7);
+      miEscena.add(Rectangulo8);
+      miEscena.add(Triangulo1);
+      miEscena.add(Triangulo2);
+      miEscena.add(Rectangulo9);
+      miEscena.add(Rectangulo10);
+
+      miCamara.lookAt(Rectangulo1.position);    
+
+      animar();
+      var ang=1;
+      function animar(){
+         requestAnimationFrame(animar);
+         renderizar();
+      }
+
+      function renderizar(){
+         if (ang>=360) ang=1; else ang+=0.01;
+         var x= 424 * Math.cos(ang);
+         var z= 424 * Math.sin(ang);
+         miCamara.position.x = x; 
+         miCamara.position.z = z;
+         miCamara.lookAt(Rectangulo1.position);
+         miRender.render(miEscena,miCamara);
+      }
+      </script>
+   </body>
+</html>

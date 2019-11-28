@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cubo de colores</title>
+  <script type="text/javascript" src="three.js"></script>
+  <script type="text/javascript" src="jquery-1.9.0.js"></script>
+</head>
+<body>
+  <div id="SalidaWebGL"></div>
+  <script type="text/javascript">
+  $(function () {
+    var escena = new THREE.Scene();
+
+    var camara = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+    var renderizador = new THREE.WebGLRenderer();
+    renderizador.setClearColorHex(0xEEEEEE, 1.0);
+    renderizador.setSize(window.innerWidth, window.innerHeight);
+    renderizador.shadowMapEnabled = true;
+
+    var luz= new THREE.SpotLight( 0xffffff );
+    luz.position.set( -40, 60, -10 );
+    luz.castShadow = true;
+    escena.add( luz );
+
+
+    //Crear un cubo
+    var materiales = [
+                      new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture('05.png') }),
+                      new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture('02.png') }),
+                      new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture('03.png') }),
+                      new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture('04.png') }),
+                      new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture('01.png') }),
+                      new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture('06.png') })
+                     ];
+
+			
+    var geometriaDelCubo = new THREE.CubeGeometry(4,4,4);
+    var materialDelCubo = new THREE.MeshFaceMaterial( materiales );  //Aquí utilizamos los materiales
+    var cubo = new THREE.Mesh(geometriaDelCubo, materialDelCubo);
+    cubo.castShadow = true;
+
+    //Posicionar el cubo
+    cubo.position.x=-4;
+    cubo.position.y=3;
+    cubo.position.z=0;
+
+    //Agregar el cubo a la escena
+    escena.add(cubo);
+
+
+    //Posicionamos la cámara y hacemos que apunte al centro de la escena.
+    camara.position.x = -30;
+    camara.position.y = 40;
+    camara.position.z = 30;
+    camara.lookAt(escena.position);
+
+    //Asociamos el resultado del renderizado con el elemento html adecuado (un div o un canvas)
+			$("#SalidaWebGL").append(renderizador.domElement);
+
+    //Renderizamos la escena
+    renderizador.render(escena, camara);
+  
+
+
+    // llamada a funcion de animación
+    animar();
+
+    function animar() {
+
+      // rotar el cubo
+      cubo.rotation.x += 0.02; cubo.rotation.y += 0.02; cubo.rotation.z += 0.02;
+
+      // renderizar con requestAnimationFrame
+      requestAnimationFrame(animar);
+      renderizador.render(escena, camara);
+    }
+
+  });
+  </script>
+</body>
+</html>

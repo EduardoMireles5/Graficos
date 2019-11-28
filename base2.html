@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Cubos</title>
+  <script type="text/javascript" src="three.js"></script>
+  <script type="text/javascript" src="jquery-1.9.0.js"></script>
+  <script src="howler.js"></script>
+  <script type="text/javascript" src="dat.gui.js"></script>
+  <style>
+    body{
+			/* Poner el margen del documento html a 0 y ocultar el desbordamiento para mostrar la escena a ventana completa */
+			margin: 0;
+			overflow: hidden;
+		}
+	</style>
+
+</head>
+
+<body>
+  <div id="SalidaWebGL">
+  </div>
+
+  <script type="text/javascript">
+
+    $(function () {
+      let movimiento = new Howl({
+        src:['417241__thelukasbanana__move-bucket-1.wav'],
+        volume: 1
+      });
+      movimiento.play();
+      var lab1 =
+        "1111111111" +
+        "1000000021" +
+        "1001100001" +
+        "1000100001" +
+        "1111114111" +
+        "1000100001" +
+        "1000000001" +
+        "1000000001" +
+        "1000000001" +
+        "1111111131";
+
+      var lab2 =
+        "1111111111" +
+        "1000000021" +
+        "1141111111" +
+        "1001000001" +
+        "1001000001" +
+        "1004000001" +
+        "1011000001" +
+        "1411000001" +
+        "1000001111" +
+        "1111131111";
+
+      var labFinal =
+        "1110000002" +
+        "1000000000" +
+        "1110000000" +
+        "0001010000" +
+        "0001010000" +
+        "0001110000" +
+        "0000001110" +
+        "0000000100" +
+        "0000000100" +
+        "0000000003";
+
+
+
+      var laberintos = [lab1, lab2, labFinal];
+      var nivel = 0;
+      var objetos = [];
+      let vacio = [];
+      var esfera;
+      var escena = new THREE.Scene();
+
+      var direccion = "ABJ";
+
+      var camara = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+      var renderizador = new THREE.WebGLRenderer();
+      renderizador.setClearColor(0xEEEEEE, 1.0);
+      renderizador.setSize(window.innerWidth, window.innerHeight);
+      renderizador.shadowMapEnabled = true;
+
+      var ejes = new THREE.AxisHelper(20);
+      escena.add(ejes);
+
+      var luz = new THREE.SpotLight(0xffffff);
+      luz.position.set(0, 0, 60);
+      luz.castShadow = true;
+      escena.add(luz);
+
+      crearLab();
+
+      camara.position.x = 5;
+      camara.position.y = -15;
+      camara.position.z = 12;
+      camara.lookAt(new THREE.Vector3(5, -5, 0));
+
+      $("#SalidaWebGL").append(renderizador.domElement);
+
+      renderizador.render(escena, camara);
+
+      document.onkeydown = animar;
+      document.onkeyup= () => movimiento.play();
+      function animar(e) {
+        switch (e.keyCode) {
+          case 37: {
+            direccion = "IZQ"; if (!colision(esfera.position.x - 1, esfera.position.y)) {
+              if (hayBloqueArrastrable(esfera.position.x - 1, esfera.position.y)) {
+                if (mueveBloque(esfera.position.x - 1, esfera.position.y))
+                  esfera.position.x -= 1;
+              }
+              else esfera.position.x -= 1;
+            }
+          } break;
+          case 38: {
+            direccion = "ARR"; if (!colision(esfera.position.x, esfera.position.y + 1)) { //? se pregunta si existe una colision en la posicion actual mas 1 
+              if (hayBloqueArrastrable(esfera.position.x, esfera.position.y + 1)) { // si la posicion actual mas 1 existen un objeto tipo 4 o un cubo movible retorna true
+                if (mueveBloque(esfera.position.x, esfera.position.y + 1))
+                  esfera.position.y += 1;
+              }
+              else esfera.position.y += 1;
+            }
+          } break;
+          case 39: {
+            direccion = "DER"; if (!colision(esfera.position.x + 1, esfera.position.y)) {
+              if (hayBloqueArrastrable(esfera.position.x + 1, esfera.position.y)) {
+                if (mueveBloque(esfera.position.x + 1, esfera.position.y))
+                  esfera.position.x += 1;
+              }
+              else esfera.position.x += 1;
+            }
+          } break;
+          case 40: {
+            direccion = "ABJ"; if (!colision(esfera.position.x, esfera.position.y - 1)) {
+              if (hayBloqueArrastrable(esfera.position.x, esfera.position.y - 1)) {
+                if (mueveBloque(esfera.position.x, esfera.position.y - 1))
+                  esfera.position.y -= 1;
+              }
+              else esfera.position.y -= 1;
+            }
+          } break;
+        }
+
+
+
+        if ((esfera.position.x == salida.position.x) && (esfera.position.y == salida.position.y)) { nivel++; crearLab(); }
+        requestAnimationFrame(animar);
+        renderizador.render(escena, camara);
+      }
+
+      function crearLab() {
+        for (i = 0; i < objetos.length; i++)
+          if (objetos[i] != null) {
+            escena.remove(objetos[i].obj);
+          }
+
+        objetos = [];
+
+        var n = 0;
+        for (y = 0; y < 10; y++)
+          for (x = 0; x < 10; x++) {
+            ponerObjeto(x, y, laberintos[nivel].charAt(n));
+            n++;
+          }
+      }
+
+      // ? itenera po rtodos los objetos del nivel
+      function colision(cDest, rDest) {
+        var r = false; //? no hay colision por defecto en un inicio
+        for (i = 0; i < objetos.length; i++)
+          if ((objetos[i] != null) && (objetos[i].obj != salida) && (objetos[i].t != '4')) // ? objeto actual es diferente a null y el onjeto no es la salida y el objeeto no es un cubo movil o un cubo amarillo
+            if ((objetos[i].obj.position.x == cDest) && (objetos[i].obj.position.y == rDest)) r = true; // ? la posicion del cubo del ciclo actual es igual a el de los parametros entonces hay una colisio
+        return r;
+      }
+
+
+      function mueveBloque(col, ren) {
+        var dx = 0; var dy = 0;
+        var resp = false;
+        for (j = 0; j < objetos.length; j++)
+          if (objetos[j] != null)
+            if ((objetos[j].obj.position.x == col) && (objetos[j].obj.position.y == ren) && (objetos[j].t == '4')) {
+              switch (direccion) {
+                case "ARR": dy = 1; break; case "ABJ": dy = -1; break; case "DER": dx = 1; break; case "IZQ": dx = -1; break;
+              }
+              if (!colision(col + dx, ren + dy)) { // si la posicion a donde se quiere mover elcubo es igual a un cubo del ciclo no se recorre el cubo
+                objetos[j].obj.position.x += dx;
+                objetos[j].obj.position.y += dy; resp = true;
+              }
+            }
+        return resp;
+      }
+
+
+      function hayBloqueArrastrable(col, ren) {
+        var resp = false;
+        for (k = 0; k < objetos.length; k++)
+          if (objetos[k] != null) // si el objeto actual del ciclo es diferente a null continua
+            if ((objetos[k].obj.position.x == col) && (objetos[k].obj.position.y == ren) && (objetos[k].t == '4')) resp = true; // ? si la posicion x  yy del objeto del ciclo es igual a los parametros y ademas es un objeto tipo 4 o un objeto movible retorna true
+        return resp;
+      }
+
+
+      function ponerObjeto(col, ren, tipo) {
+        switch (tipo) {
+          case '0': { objetos.push(null); break; }
+
+          case '1': {
+            objetos.push({
+              obj: new THREE.Mesh(new THREE.CubeGeometry(1, 1, 1),
+                new THREE.MeshLambertMaterial({ color: 0x00ff00 })), t: tipo
+            }); break;
+          }
+          case '2': {
+            objetos.push({
+              obj: new THREE.Mesh(new THREE.SphereGeometry(0.5, 20, 20),
+                new THREE.MeshLambertMaterial({ color: 0xff00ff })), t: tipo
+            });
+            esfera = objetos[objetos.length - 1].obj; break;
+          }
+
+          case '3': {
+            objetos.push({
+              obj: new THREE.Mesh(new THREE.SphereGeometry(0.5, 20, 20),
+                new THREE.MeshLambertMaterial({ color: 0x000000 })), t: tipo
+            });
+            salida = objetos[objetos.length - 1].obj; break;
+          }
+
+          case '4': {
+            objetos.push({
+              obj: new THREE.Mesh(new THREE.CubeGeometry(1, 1, 1),
+                new THREE.MeshLambertMaterial({ color: 0xffff00 })), t: tipo
+            }); break;
+          }
+        }
+        if (tipo != '0') {
+          objetos[objetos.length - 1].obj.position.set(col + 0.5, (ren + 0.5) * -1, 0);
+          objetos[objetos.length - 1].obj.castShadow = true;
+          escena.add(objetos[objetos.length - 1].obj);
+
+          // objetos[objetos.length - 1].obj.rotation.x += .05;
+          // requestAnimationFrame(ponerObjeto);
+          // renderizador.render(escena, camara);
+
+        }
+      }
+
+    });
+
+  </script>
+</body>
+
+</html>

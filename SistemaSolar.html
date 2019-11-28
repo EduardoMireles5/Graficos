@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Sistema Solar</title>
+	<script type="text/javascript" src="three.js"></script>
+	<script type="text/javascript" src="jquery-1.9.0.js"></script>
+
+</head>
+
+<body>
+
+	<!-- div en el que mostraremos la salida -->
+	<div id="SalidaWebGL">
+	</div>
+	<!-- funcion Javascript que ejecutará nuestro ejemplo sobre Three.js -->
+	<script type="text/javascript">
+		// Cuando se cargue la página se ejecutará nuestra función
+		$(function () {
+
+			//Crear una escena, que contendrá todos los elementos como objetos, cámaras y luces.
+			var escena = new THREE.Scene();
+
+			//Crear una cámara, que define hacia dónde estamos mirando.
+			var camara = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+			//Crear un objeto render y establecer su tamaño
+			var renderizador = new THREE.WebGLRenderer();
+			renderizador.setClearColor(new THREE.Color(0xEEEEEE));
+			renderizador.setSize(window.innerWidth, window.innerHeight);
+			renderizador.shadowMapEnable = true;
+	
+			 var luz= new THREE.SpotLight( 0xffffff );
+    			luz.position.set( -40, 60, -10 );
+   				luz.castShadow = true;
+    			escena.add( luz );
+			
+
+			//Crear una esfera
+			var geometriaDeLaEsfera= new THREE.SphereGeometry(8,20,20);
+			var materialDeLaEsfera = new THREE.MeshBasicMaterial({color: 0x7777ff, wireframe: true});
+			var sol = new THREE.Mesh(geometriaDeLaEsfera, materialDeLaEsfera);
+
+			var geometriaDeLaEsfera= new THREE.SphereGeometry(.5,20,20);
+			var materialDeLaEsfera = new THREE.MeshBasicMaterial({color: 0x7777ff, wireframe: true});
+			var mercurio = new THREE.Mesh(geometriaDeLaEsfera, materialDeLaEsfera);
+
+			var geometriaDeLaEsfera= new THREE.SphereGeometry(3,20,20);
+			var materialDeLaEsfera = new THREE.MeshBasicMaterial({color: 0x7777ff, wireframe: true});
+			var venus = new THREE.Mesh(geometriaDeLaEsfera, materialDeLaEsfera);
+
+			var geometriaDeLaEsfera= new THREE.SphereGeometry(3.5,20,20);
+			var materialDeLaEsfera = new THREE.MeshBasicMaterial({color: 0x7777ff, wireframe: true});
+			var tierra = new THREE.Mesh(geometriaDeLaEsfera, materialDeLaEsfera);
+
+			var geometriaDeLaEsfera= new THREE.SphereGeometry(2,20,20);
+			var materialDeLaEsfera = new THREE.MeshBasicMaterial({color: 0x7777ff, wireframe: true});
+			var marte = new THREE.Mesh(geometriaDeLaEsfera, materialDeLaEsfera);
+
+			var geometriaDeLaEsfera= new THREE.SphereGeometry(6.5,20,20);
+			var materialDeLaEsfera = new THREE.MeshBasicMaterial({color: 0x7777ff, wireframe: true});
+			var jupiter = new THREE.Mesh(geometriaDeLaEsfera, materialDeLaEsfera);
+
+			var geometriaDeLaEsfera= new THREE.SphereGeometry(6,20,20);
+			var materialDeLaEsfera = new THREE.MeshBasicMaterial({color: 0x7777ff, wireframe: true});
+			var saturno = new THREE.Mesh(geometriaDeLaEsfera, materialDeLaEsfera);
+
+			var geometriaDeLaEsfera= new THREE.SphereGeometry(3,20,20);
+			var materialDeLaEsfera = new THREE.MeshBasicMaterial({color: 0x7777ff, wireframe: true});
+			var urano = new THREE.Mesh(geometriaDeLaEsfera, materialDeLaEsfera);
+
+
+			//Posición de la esfera
+			sol.position.x=-30;
+			sol.position.y=-10;
+			sol.position.z=-30;
+
+			mercurio.position.x=-25;
+			mercurio.position.y=-3;
+			mercurio.position.z=-10;
+
+			venus.position.x=-18;
+			venus.position.y=-10;
+			venus.position.z=-15;
+
+			tierra.position.x=-15;
+			tierra.position.y=-8;
+			tierra.position.z=-3;
+
+			marte.position.x=-5;
+			marte.position.y=-3;
+			marte.position.z=-3;
+
+			jupiter.position.x=0;
+			jupiter.position.y=1;
+			jupiter.position.z=9;
+
+			saturno.position.x=7;
+			saturno.position.y=13;
+			saturno.position.z=20;
+
+			urano.position.x=12;
+			urano.position.y=12;
+			urano.position.z=30;
+
+			//Agregar la esfera a la escena
+			escena.add(sol);
+			escena.add(mercurio);
+			escena.add(venus);
+			escena.add(tierra);
+			escena.add(marte);
+			escena.add(jupiter);
+			escena.add(saturno);
+			escena.add(urano);
+
+			//Posicionamos la cámara y hacemos que apunte al centro de la escena.
+			camara.position.x = -30;
+			camara.position.y = 40;
+			camara.position.z = 30;
+			camara.lookAt(escena.position);
+
+			//Asociamos el resultado del renderizado con el elemento html adecuado (un div o un canvas)
+			$("#SalidaWebGL").append(renderizador.domElement);
+
+			//Renderizamos la escena
+			renderizador.render(escena, camara);
+
+    });
+	
+	</script>
+</body>
+</html>

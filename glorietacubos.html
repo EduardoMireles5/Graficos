@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Glorieta de los cubos</title>
+	<script type="text/javascript" src="three.js"></script>
+	<script type="text/javascript" src="jquery-1.9.0.js"></script>
+
+</head>
+
+<body>
+<!-- div en el que mostraremos la salida -->
+	<div id="SalidaWebGL">
+	</div>
+	<!-- funcion Javascript que ejecutará nuestro ejemplo sobre Three.js -->
+	<script type="text/javascript">
+		// Cuando se cargue la página se ejecutará nuestra función
+		$(function () {
+
+			//Crear una escena, que contendrá todos los elementos como objetos, cámaras y luces.
+			var escena = new THREE.Scene();
+
+			//Crear una cámara, que define hacia dónde estamos mirando.
+			var camara = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+			//Crear un objeto render y establecer su tamaño
+			var renderizador = new THREE.WebGLRenderer();
+			renderizador.setClearColor(new THREE.Color(0xEEEEEE));
+			renderizador.setSize(window.innerWidth, window.innerHeight);
+	
+
+			
+
+			//Crear un cubo
+			var geometriaDelCubo= new THREE.BoxGeometry(1,1,1);
+			var materialDelCubo = new THREE.MeshBasicMaterial({color: 0x7777ff, wireframe: true});
+			var cubo = new THREE.Mesh(geometriaDelCubo, materialDelCubo);
+
+
+			//Posición del cubo
+			cubo.position.x=0;
+			cubo.position.y=0;
+			cubo.position.z=0;
+
+			//Agregar el cubo a la escena
+			escena.add(cubo);
+
+			//Posicionamos la cámara y hacemos que apunte al centro de la escena.
+			camara.position.x = -30;
+			camara.position.y = 40;
+			camara.position.z = 30;
+			camara.lookAt(escena.position);
+
+			//Asociamos el resultado del renderizado con el elemento html adecuado (un div o un canvas)
+			$("#SalidaWebGL").append(renderizador.domElement);
+
+			//Renderizamos la escena
+			renderizador.render(escena, camara);
+
+    });
+	
+	</script>
+</body>
+</html>

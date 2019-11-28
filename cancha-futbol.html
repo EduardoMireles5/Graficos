@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Cancha de Futbol</title>
+	<script type="text/javascript" src="./JS/three.js"></script>
+	<script type="text/javascript" src="./JS/jquery-1.9.0.js"></script>
+
+</head>
+
+<body>
+	<!-- div en el que mostraremos la salida -->
+	<div id="SalidaWebGL">
+	</div>
+	<!-- funcion Javascript que ejecutará nuestro ejemplo sobre Three.js -->
+	<script type="text/javascript">
+		// Cuando se cargue la página se ejecutará nuestra función
+		$(function () {
+
+			//Crear una escena, que contendrá todos los elementos como objetos, cámaras y luces.
+			var escena = new THREE.Scene();
+
+			//Crear una cámara, que define hacia dónde estamos mirando.
+			var camara = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+			//Crear un objeto render y establecer su tamaño
+			var renderizador = new THREE.WebGLRenderer();
+			renderizador.setClearColor(new THREE.Color(0xEEEEEE));
+			renderizador.setSize(window.innerWidth, window.innerHeight);
+
+			var ejes = new THREE.AxisHelper(20);
+			escena.add(ejes);
+
+
+
+			//Crear un plano =================================================
+			var geometriaDeLaEsfera = new THREE.PlaneGeometry(30, 50, 750);
+			var materialDeLaEsfera = new THREE.MeshBasicMaterial({ color: 0x11a422, wireframe: true });
+			var rectangulo = new THREE.Mesh(geometriaDeLaEsfera, materialDeLaEsfera);
+
+			//Posición del plano
+			rectangulo.position.x = 0;
+			rectangulo.position.y = 0;
+			rectangulo.position.z = 0;
+
+			//Agregar el plano a la escena =====================================
+			escena.add(rectangulo);
+
+			//Crear un plano
+			var geometriaDeLaEsfera = new THREE.PlaneGeometry(15, 20, 50);
+			var materialDeLaEsfera = new THREE.MeshBasicMaterial({ color: 0x11a422, wireframe: true });
+			var rectangulo2 = new THREE.Mesh(geometriaDeLaEsfera, materialDeLaEsfera);
+
+			//Posición del plano
+			rectangulo2.rotation.x = -0.6 * Math.PI;
+			rectangulo2.position.x = 0;
+			rectangulo2.position.y = 0;
+			rectangulo2.position.z = 0;
+
+			//Agregar el plano a la escena
+			escena.add(rectangulo2);
+
+
+			//Crear una esfera
+
+			var geometriaDeLaEsfera = new THREE.SphereGeometry(1, 20, 200);
+
+			var materialDeLaEsfera = new THREE.MeshBasicMaterial({ color: 0x7777ff, wireframe: true });
+
+			var esfera = new THREE.Mesh(geometriaDeLaEsfera, materialDeLaEsfera);
+
+
+
+			//Posición de la esfera
+
+			esfera.position.x = 1;
+
+			esfera.position.y = -15;
+
+			esfera.position.z = 2;
+
+			//agregar balon a la escena
+			escena.add(esfera);
+
+
+			//Posicionamos la cámara y hacemos que apunte al centro de la escena.
+			camara.position.x = 0;
+			camara.position.y = -35;
+			camara.position.z = 10;
+			camara.lookAt(escena.position);
+
+			//Asociamos el resultado del renderizado con el elemento html adecuado (un div o un canvas)
+			$("#SalidaWebGL").append(renderizador.domElement);
+
+			//Renderizamos la escena
+			renderizador.render(escena, camara);
+
+		});
+
+	</script>
+</body>
+
+</html>
